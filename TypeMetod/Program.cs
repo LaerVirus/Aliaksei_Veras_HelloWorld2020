@@ -58,7 +58,14 @@ namespace TypeMetod
                                         }
                                         catch
                                         {
+                                            try
+                                            {
+                                                Bufer = Convert.ToSingle(StringArg);
+                                            }
+                                            catch
+                                            {
 
+                                            }
                                         }
                                     }
                                 }
@@ -91,6 +98,7 @@ namespace TypeMetod
         
         static void Main(string[] args)
         {
+            Console.WriteLine("Введите arg.");
             Console.WriteLine(argGetType(Console.ReadLine())); 
         }
     }
