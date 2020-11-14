@@ -10,7 +10,7 @@ namespace TypeMetod
         {
             try
             {
-                string StringArg = (string)arg;
+                string StringArg = Convert.ToString(arg);
                 object Bufer;
 
                 try
