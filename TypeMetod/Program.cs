@@ -6,8 +6,6 @@ namespace TypeMetod
 {
     class Program
     {
-        public readonly Type Int = typeof(int);
-
         static object argGetType(object arg)
         {
             try
