@@ -27,11 +27,9 @@ namespace Princess
 
                 Console.SetCursorPosition(1, 13);
                 Console.WriteLine("Do you want to play again?");
-                Console.SetCursorPosition(4, 15);
+                Console.SetCursorPosition(9, 15);
                 Console.ForegroundColor = ConsoleColor.Green;
-                Console.Write("Yes ");
-                Console.ResetColor();
-                Console.Write("K");
+                Console.Write("Yes  ");
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.Write(" No");
                 Console.ResetColor();
@@ -39,7 +37,9 @@ namespace Princess
                 bool QuestionStatus = true;
                 while (QuestionStatus)
                 {
-                    Console.SetCursorPosition(8, 15);
+                    Console.SetCursorPosition(13, 15);
+                    Console.Write("K");
+                    Console.SetCursorPosition(13, 15);
                     switch (Console.ReadKey().Key)
                     {
                         case ConsoleKey.LeftArrow: 
