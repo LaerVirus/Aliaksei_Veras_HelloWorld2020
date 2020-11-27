@@ -32,9 +32,9 @@ namespace Princess
 
         public static void MapPrint()
         {
-            for (int i = 0; i < 12; i++)
+            for (byte i = 0; i < 12; i++)
             {
-                for (int j = 0; j < 12; j++)
+                for (byte j = 0; j < 12; j++)
                 {
                     Console.Write($"{map[i, j],2}");
                 }
