@@ -4,10 +4,10 @@ using System.Text;
 
 namespace Princess
 {
-    class Trap
+    public class Trap
     {
-        public bool ActivateStatus = true;
-        public byte TrapVertical;
-        public byte TrapHorizontal;
+        public bool ActivateStatus { get; set; } = true;
+        public byte Vertical { get; set; }
+        public byte Horizontal { get; set; }
     }
 }

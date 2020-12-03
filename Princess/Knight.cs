@@ -4,38 +4,44 @@ using System.Text;
 
 namespace Princess
 {
-    class Knight
+    public class Knight
     {
-        public static sbyte HealthPoints = 10;
-        public static byte Vertical = 1;
-        public static byte Horizontal = 1;
+        private const sbyte MaxHealthPoints = 10;
 
-        public static Trap[] trap = new Trap[10];
+        public static sbyte HealthPoints { get; set; } = MaxHealthPoints;
+        public static byte Vertical { get; set; } = GameField.WallSize;
+        public static byte Horizontal { get; set; } = GameField.WallSize;
+
+        private const byte TrapNumber = 10;
+        private const sbyte MinDamage = 1;
+        private const sbyte MaxDamage = 10;
+
+        private static Trap[] trap = new Trap[TrapNumber];
 
         public static void TrapGenerate()
         {
             Random random = new Random();
 
-            for (byte i = 0; i < 10; i++)
+            for (byte i = 0; i < TrapNumber; i++)
             {
                 trap[i] = new Trap();
                 bool TrapGenerateStatus = true;
                 while (TrapGenerateStatus)
                 {
-                    trap[i].TrapHorizontal = (byte) random.Next(1, 10);
-                    trap[i].TrapVertical = (byte) random.Next(1, 10);
+                    trap[i].Horizontal = (byte) random.Next(GameField.WallSize, GameField.FieldSize);
+                    trap[i].Vertical = (byte) random.Next(GameField.WallSize, GameField.FieldSize);
 
                     byte j;
 
                     for (j = 0; j < i; j++)
                     {
-                        if (trap[i].TrapHorizontal == trap[j].TrapHorizontal && trap[i].TrapVertical == trap[j].TrapVertical)
+                        if (trap[i].Horizontal == trap[j].Horizontal && trap[i].Vertical == trap[j].Vertical)
                         {
                             break;
                         }                        
                     }
 
-                    if (j == i && ((trap[i].TrapHorizontal != 1 && trap[i].TrapVertical != 1) || (trap[i].TrapHorizontal != 10 && trap[i].TrapVertical != 10)))
+                    if (j == i && ((trap[i].Horizontal != GameField.WallSize && trap[i].Vertical != GameField.WallSize) || (trap[i].Horizontal != GameField.FieldSize && trap[i].Vertical != GameField.FieldSize)))
                     {
                         TrapGenerateStatus = false;
                     }
@@ -43,14 +49,14 @@ namespace Princess
             }
         }
 
-        public static void TrapCheck(byte Vertical, byte Horizontal)
+        private static void CheckTrap(byte Vertical, byte Horizontal)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < TrapNumber; i++)
             {
-                if (Horizontal == trap[i].TrapHorizontal && Vertical == trap[i].TrapVertical && trap[i].ActivateStatus)
+                if (Horizontal == trap[i].Horizontal && Vertical == trap[i].Vertical && trap[i].ActivateStatus)
                 {
                     Random random = new Random();
-                    HealthPoints -= (sbyte) random.Next(1, 10);
+                    HealthPoints -= (sbyte) random.Next(MinDamage, MaxDamage);
                     if (HealthPoints < 0)
                     {
                         HealthPoints = 0;
@@ -60,28 +66,22 @@ namespace Princess
             }
         }
 
-        public static void KnightRestart()
+        public static void RestartKnight()
         {
-            HealthPoints = 10;
-            Vertical = 1;
-            Horizontal = 1;
+            HealthPoints = MaxHealthPoints;
+            Vertical = GameField.WallSize;
+            Horizontal = GameField.WallSize;
         }
                 
-        static bool WallCheck(int VerticalCheck, int HorizontalCheck)
+        private static bool CheckWall(int VerticalCheck, int HorizontalCheck)
         {
-            if (Map.map[VerticalCheck, HorizontalCheck] == '#')
-            {
-                return false;
-            }
-            else
-            {
-                return true;
-            }
+            bool CheckWall = (GameField.field[VerticalCheck, HorizontalCheck] == '#') ? (false) : (true);
+            return CheckWall;
         }
 
-        public static void KnightMove()
+        public static void MoveKnight()
         {
-            Console.SetCursorPosition(25, 15);
+            Console.SetCursorPosition(2 * GameField.FieldSize, 2 * GameField.FieldSize);
 
             byte BuferVertical = Vertical;
             byte BuferHorizontal = Horizontal;
@@ -89,50 +89,50 @@ namespace Princess
             switch (Console.ReadKey().Key)
             {                
                 case ConsoleKey.RightArrow: 
-                    if (WallCheck(Vertical, Horizontal + 1))
+                    if (CheckWall(Vertical, Horizontal + 1))
                     {
                         Horizontal++;
                     }
                     break;
                 case ConsoleKey.LeftArrow:
-                    if (WallCheck(Vertical, Horizontal - 1))
+                    if (CheckWall(Vertical, Horizontal - 1))
                     {
                         Horizontal--;
                     }
                     break;
                 case ConsoleKey.UpArrow:
-                    if (WallCheck(Vertical - 1, Horizontal))
+                    if (CheckWall(Vertical - 1, Horizontal))
                     {
                         Vertical--;
                     }
                     break;
                 case ConsoleKey.DownArrow:
-                    if (WallCheck(Vertical + 1, Horizontal))
+                    if (CheckWall(Vertical + 1, Horizontal))
                     {
                         Vertical++;
                     }
                     break;
                 default:
-                    Console.SetCursorPosition(25, 15);
+                    Console.SetCursorPosition(2 * GameField.FieldSize, 2 * GameField.FieldSize);
                     Console.Write(' ');
                     break;
             }
 
-            TrapCheck(Vertical, Horizontal);
+            CheckTrap(Vertical, Horizontal);
 
-            Console.SetCursorPosition(BuferHorizontal * 2  + 1, BuferVertical);
+            Console.SetCursorPosition(BuferHorizontal * 2  + GameField.WallSize, BuferVertical);
             Console.Write(' ');
-            Console.SetCursorPosition(Horizontal * 2 + 1, Vertical);
+            Console.SetCursorPosition(Horizontal * 2 + GameField.WallSize, Vertical);
             Console.Write('K');
         }
 
-        public static void HealthPointsPrint()
+        public static void PrintHealthPoints()
         {
-            Console.SetCursorPosition(27, 5);
+            Console.SetCursorPosition(2 * (GameField.FieldSize + 2 * GameField.WallSize) + 2, (GameField.FieldSize + 2 * GameField.WallSize) / 2);
             Console.ForegroundColor = ConsoleColor.Red;
             Console.WriteLine($"HP {HealthPoints,2}");
             Console.ResetColor();
-            Console.SetCursorPosition(25, 15);
+            Console.SetCursorPosition(2 * GameField.FieldSize, 2 * GameField.FieldSize);
         }
     }
 }
