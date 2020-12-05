@@ -14,9 +14,9 @@ namespace Princess
             {
                 Console.Clear();
                 Console.SetCursorPosition(0, 0);
-                Knight.TrapGenerate();
+                GameOperations.GenerateTrap();
                 GameField.PrintField();
-                Knight.RestartKnight();
+                GameOperations.RestartKnight();
 
                 Knight.PrintHealthPoints();
                 while ((Knight.Vertical != 10 || Knight.Horizontal != 10) && Knight.HealthPoints > 0)
@@ -25,7 +25,7 @@ namespace Princess
                     Knight.PrintHealthPoints();
                 }
 
-                GameStatus = (Knight.HealthPoints == 0) ? (GameStatus = Messeges.RequestRestart(false)) : (GameStatus = Messeges.RequestRestart(true));
+                GameStatus = (Knight.HealthPoints == 0) ? (GameOperations.RequestRestart(false)) : (GameOperations.RequestRestart(true));
             }
         }
     }
