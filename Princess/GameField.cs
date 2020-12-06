@@ -13,7 +13,7 @@ namespace Princess
 
         private const char Wall = '#';
 
-        public static void GenerateField()
+        public GameField()
         {
             for (byte i = 0; i < FieldSize + 2 * WallSize; i++)
             {

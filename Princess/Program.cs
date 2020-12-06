@@ -6,26 +6,20 @@ namespace Princess
     {
         static void Main(string[] args)
         {
-            GameField.GenerateField();
+            GameField gameField = new GameField();
 
             bool GameStatus = true;
 
             while (GameStatus)
             {
-                Console.Clear();
-                Console.SetCursorPosition(0, 0);
-                GameOperations.GenerateTrap();
-                GameField.PrintField();
-                GameOperations.RestartKnight();
+                Game.RestartGame();
 
-                Knight.PrintHealthPoints();
                 while ((Knight.Vertical != 10 || Knight.Horizontal != 10) && Knight.HealthPoints > 0)
                 {
-                    Knight.MoveKnight();
-                    Knight.PrintHealthPoints();
+                    Game.MoveKnight();
                 }
 
-                GameStatus = (Knight.HealthPoints == 0) ? (GameOperations.RequestRestart(false)) : (GameOperations.RequestRestart(true));
+                GameStatus = (Knight.HealthPoints == 0) ? (Game.RequestRestart(false)) : (Game.RequestRestart(true));
             }
         }
     }
