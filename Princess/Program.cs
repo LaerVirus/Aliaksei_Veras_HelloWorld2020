@@ -4,22 +4,22 @@ namespace Princess
 {
     public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
             GameField gameField = new GameField();
 
-            bool GameStatus = true;
+            bool gameStatus = true;
 
-            while (GameStatus)
+            while (gameStatus)
             {
                 Game.RestartGame();
 
-                while ((Knight.Vertical != 10 || Knight.Horizontal != 10) && Knight.HealthPoints > 0)
+                while ((Knight.Vertical != GameField.FieldSize || Knight.Horizontal != GameField.FieldSize) && Knight.HealthPoints > 0)
                 {
-                    Game.MoveKnight();
+                    Knight.MoveKnight();
                 }
 
-                GameStatus = (Knight.HealthPoints == 0) ? (Game.RequestRestart(false)) : (Game.RequestRestart(true));
+                gameStatus = (Knight.HealthPoints == 0) ? (Game.RequestRestart(false)) : (Game.RequestRestart(true));
             }
         }
     }

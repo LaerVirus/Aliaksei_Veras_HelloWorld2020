@@ -43,7 +43,7 @@ namespace Princess
             }
         }
 
-        private static void CheckTrap(byte Vertical, byte Horizontal)
+        public static void CheckTrap(byte Vertical, byte Horizontal)
         {
             for (int i = 0; i < TrapNumber; i++)
             {
@@ -60,70 +60,6 @@ namespace Princess
             }
         }
 
-        private static bool CheckWall(int VerticalCheck, int HorizontalCheck)
-        {
-            bool CheckWall = (GameField.field[VerticalCheck, HorizontalCheck] == '#') ? (false) : (true);
-            return CheckWall;
-        }
-
-        public static void MoveKnight()
-        {
-            Console.SetCursorPosition(2 * GameField.FieldSize, 2 * GameField.FieldSize);
-
-            byte BuferVertical = Knight.Vertical;
-            byte BuferHorizontal = Knight.Horizontal;
-
-            switch (Console.ReadKey().Key)
-            {
-                case ConsoleKey.RightArrow:
-                    if (CheckWall(Knight.Vertical, Knight.Horizontal + 1))
-                    {
-                        Knight.Horizontal++;
-                    }
-                    break;
-                case ConsoleKey.LeftArrow:
-                    if (CheckWall(Knight.Vertical, Knight.Horizontal - 1))
-                    {
-                        Knight.Horizontal--;
-                    }
-                    break;
-                case ConsoleKey.UpArrow:
-                    if (CheckWall(Knight.Vertical - 1, Knight.Horizontal))
-                    {
-                        Knight.Vertical--;
-                    }
-                    break;
-                case ConsoleKey.DownArrow:
-                    if (CheckWall(Knight.Vertical + 1, Knight.Horizontal))
-                    {
-                        Knight.Vertical++;
-                    }
-                    break;
-                default:
-                    Console.SetCursorPosition(2 * GameField.FieldSize, 2 * GameField.FieldSize);
-                    Console.Write(' ');
-                    break;
-            }
-
-            CheckTrap(Knight.Vertical, Knight.Horizontal);
-
-            Console.SetCursorPosition(BuferHorizontal * 2 + GameField.WallSize, BuferVertical);
-            Console.Write(' ');
-            Console.SetCursorPosition(Knight.Horizontal * 2 + GameField.WallSize, Knight.Vertical);
-            Console.Write('K');
-
-            PrintKnightHealthPoints();
-        }
-
-        private static void PrintKnightHealthPoints()
-        {
-            Console.SetCursorPosition(2 * (GameField.FieldSize + 2 * GameField.WallSize) + 2, (GameField.FieldSize + 2 * GameField.WallSize) / 2);
-            Console.ForegroundColor = ConsoleColor.Red;
-            Console.WriteLine($"HP {Knight.HealthPoints,2}");
-            Console.ResetColor();
-            Console.SetCursorPosition(2 * GameField.FieldSize, 2 * GameField.FieldSize);
-        }
-
         public static void RestartGame()
         {
             Knight.HealthPoints = Knight.MaxHealthPoints;
@@ -133,7 +69,7 @@ namespace Princess
             Console.Clear();
             Console.SetCursorPosition(0, 0);
             GameField.PrintField();
-            PrintKnightHealthPoints();
+            Knight.PrintKnightHealthPoints();
             GenerateTrap();
         }
 
